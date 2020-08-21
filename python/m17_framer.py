@@ -19,16 +19,17 @@
 
 import numpy
 from gnuradio import gr
+#from . import m17_lich
 
 class m17_framer(gr.basic_block):
     """
-    docstring for block m17_framer
+    framing for M17 specification
     """
     def __init__(self, dst,src,stream_type,nonce=None):
         gr.basic_block.__init__(self,
             name="m17_framer",
-            in_sig=[<+numpy.float+>],
-            out_sig=[<+numpy.float+>])
+            in_sig=[numpy.byte],
+            out_sig=[numpy.byte])
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
@@ -36,6 +37,7 @@ class m17_framer(gr.basic_block):
             ninput_items_required[i] = noutput_items
 
     def general_work(self, input_items, output_items):
+        # TODO: Need to figure out to trigger preamble and initial LICH
         output_items[0][:] = input_items[0]
         consume(0, len(input_items[0]))
         #self.consume_each(len(input_items[0]))

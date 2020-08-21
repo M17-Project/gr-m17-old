@@ -5,34 +5,45 @@
   <category>m17</category>
   <import>import m17</import>
   <make>m17.m17_framer($dst, $src, $stream_type, $nonce)</make>
-  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
-       Sub-nodes:
-       * name
-       * key (makes the value accessible as $keyname, e.g. in the make node)
-       * type -->
+
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>Destination callsign</name>
+    <key>dst</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Source callsign</name>
+    <key>src</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Stream Type</name>
+    <key>stream_type</key>
+    <type>short</type>
+  </param>
+  <param>
+    <name>AES nonce</name>
+    <key>nonce</key>
+    <type>bytes</type>
+  </param>
+  <param>
+    <name>input vector length</name>
+    <key>inlen</key>
   </param>
 
-  <!-- Make one 'sink' node per input. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
+  <!-- TODO: check for valid input vector lengths
+  -->
+  <check>$inlen &gt; 0</check>
+  
   <sink>
-    <name>in</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>in_data</name>
+    <type>byte</type>
+    <vlen>$inlen</vlen>
   </sink>
 
-  <!-- Make one 'source' node per output. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
   <source>
     <name>out</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <type>byte</type>
+    <vlen>368</vlen>
   </source>
 </block>

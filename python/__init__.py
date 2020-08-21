@@ -32,4 +32,5 @@ except ImportError:
 
 # import any pure python here
 from m17_framer import m17_framer
+from m17_lich import m17_lich
 #
