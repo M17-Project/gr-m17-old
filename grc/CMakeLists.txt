@@ -19,5 +19,5 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    DESTINATION share/gnuradio/grc/blocks
+    m17_m17_framer.block.yml DESTINATION share/gnuradio/grc/blocks
 )
