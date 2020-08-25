@@ -60,7 +60,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [54, 213]
+    coordinate: [54, 205]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -78,7 +78,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [983, 589]
+    coordinate: [1623, 189]
     rotation: 0
     state: true
 - name: blocks_float_to_short_0
@@ -95,7 +95,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [473, 198]
+    coordinate: [462, 205]
     rotation: 0
     state: true
 - name: blocks_vector_to_stream_0
@@ -113,7 +113,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [684, 198]
+    coordinate: [631, 209]
     rotation: 0
     state: true
 - name: blocks_vector_to_stream_1
@@ -131,7 +131,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 334]
+    coordinate: [1075, 209]
     rotation: 0
     state: true
 - name: m17_framer_0
@@ -150,7 +150,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [689, 481]
+    coordinate: [1294, 181]
     rotation: 0
     state: true
 - name: rational_resampler_xxx_0
@@ -170,7 +170,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [253, 193]
+    coordinate: [253, 181]
     rotation: 0
     state: true
 - name: vocoder_codec2_encode_sp_0
@@ -186,7 +186,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [876, 188]
+    coordinate: [827, 205]
     rotation: 0
     state: true
 
