@@ -1,0 +1,203 @@
+options:
+  parameters:
+    author: ''
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: codec2_exp
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '16000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: audio_source_0
+  id: audio_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    device_name: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    ok_to_block: 'True'
+    samp_rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [54, 213]
+    rotation: 0
+    state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: dump.raw
+    type: byte
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [983, 589]
+    rotation: 0
+    state: true
+- name: blocks_float_to_short_0
+  id: blocks_float_to_short
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [473, 198]
+    rotation: 0
+    state: true
+- name: blocks_vector_to_stream_0
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '1'
+    type: short
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [684, 198]
+    rotation: 0
+    state: true
+- name: blocks_vector_to_stream_1
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '64'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 334]
+    rotation: 0
+    state: true
+- name: m17_framer_0
+  id: m17_framer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dst: SP5WWP
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nonce: ''
+    src: KM6VMZ
+    stream_type: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [689, 481]
+    rotation: 0
+    state: true
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '2'
+    fbw: '0'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: ''
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [253, 193]
+    rotation: 0
+    state: true
+- name: vocoder_codec2_encode_sp_0
+  id: vocoder_codec2_encode_sp
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mode: codec2.MODE_3200
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [876, 188]
+    rotation: 0
+    state: true
+
+connections:
+- [audio_source_0, '0', rational_resampler_xxx_0, '0']
+- [blocks_float_to_short_0, '0', blocks_vector_to_stream_0, '0']
+- [blocks_vector_to_stream_0, '0', vocoder_codec2_encode_sp_0, '0']
+- [blocks_vector_to_stream_1, '0', m17_framer_0, '0']
+- [m17_framer_0, '0', blocks_file_sink_0, '0']
+- [rational_resampler_xxx_0, '0', blocks_float_to_short_0, '0']
+- [vocoder_codec2_encode_sp_0, '0', blocks_vector_to_stream_1, '0']
+
+metadata:
+  file_format: 1
