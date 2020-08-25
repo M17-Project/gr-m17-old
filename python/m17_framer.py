@@ -21,6 +21,7 @@
 
 import numpy
 from gnuradio import gr
+from m17.m17_lich import lich
 
 class m17_framer(gr.basic_block):
     """
@@ -31,6 +32,11 @@ class m17_framer(gr.basic_block):
             name="m17_framer",
             in_sig=[numpy.byte],
             out_sig=[numpy.byte])
+        if nonce is None:
+            nonce = bytearray(96)
+        self.lich = lich(dst, src, stream_type, nonce)
+        gr.log.debug('LICH {}'.format(self.lich))
+        gr.log.debug('LICH bytes {}'.format(self.lich.asList()))
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
