@@ -86,6 +86,9 @@ ENDIF()
 # Install directories
 ########################################################################
 find_package(Gnuradio "3.8" REQUIRED)
+# TODO: Hack to allow overriding PYTHON install directory.
+# See https://github.com/gnuradio/gnuradio/issues/3729
+unset(GR_PYTHON_DIR)
 include(GrVersion)
 
 include(GrPlatform) #define LIB_SUFFIX

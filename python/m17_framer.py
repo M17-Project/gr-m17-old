@@ -40,5 +40,6 @@ class m17_framer(gr.basic_block):
     def general_work(self, input_items, output_items):
         # TODO: Need to figure out to trigger preamble and initial LICH
         output_items[0][:] = input_items[0]
-        consume(0, len(input_items[0]))        #self.consume_each(len(input_items[0]))
+        #consume(0, len(input_items[0]))
+        self.consume_each(len(input_items[0]))
         return len(output_items[0])
