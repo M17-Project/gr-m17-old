@@ -38,43 +38,30 @@ class m17_framer(gr.basic_block):
         if nonce is None:
             nonce = bytearray(96)
         self.lich = lich(dst, src, stream_type, nonce)
+        self.lich_array = numpy.array(self.lich.asList(),dtype=numpy.int8)
+
         gr.log.debug('LICH {}'.format(self.lich))
-        gr.log.debug('LICH bytes {}'.format(self.lich.asList()))
+        gr.log.debug('LICH bytes {}'.format(self.lich_array))
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):
             ninput_items_required = 128 * int(noutput_items / 176)
-        gr.log.debug("forecast {} {}".format(noutput_items, ninput_items_required))
+        #gr.log.debug("forecast {} {}".format(noutput_items, ninput_items_required))
 
     def general_work(self, input_items, output_items):
-        # TODO: Need to figure out to trigger preamble and initial LICH
-        lich_array = numpy.array(self.lich.asList(),dtype=numpy.int8)
-
-        gr.log.debug("type: {} {} {}".format(type(input_items[0]),
-                                          input_items[0].shape,
-                                          input_items[0].dtype,
-        ))
-
-        gr.log.debug("type: {} {} {}".format(type(lich_array),
-                                             lich_array.shape,
-                                             lich_array.dtype))
-
-        gr.log.debug("type: {} {} {}".format(type(output_items[0]),
-                                             output_items[0].shape,
-                                             output_items[0].dtype))
 
         self.buffer = numpy.concatenate((self.buffer, input_items[0],) )
         self.consume_each(len(input_items[0]))
 
         nout = 0
         while len(self.buffer) > 128:
-            output_items[0][nout:(nout + len(lich_array))] = lich_array
-            nout += len(lich_array)
+            output_items[0][nout:(nout + len(self.lich_array))] = self.lich_array
+            nout += len(self.lich_array)
             output_items[0][nout:(nout + 128)] = self.buffer[:128]
             self.buffer = self.buffer[128:]
             nout += 128
-
-        gr.log.debug("rx: {} gen: {}".format(len(input_items[0]), nout))
+        if nout > 0 or len(input_items[0]) > 0:
+            gr.log.debug("rx: {} gen: {}".format(len(input_items[0]), nout))
 
         return nout
