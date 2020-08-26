@@ -6,7 +6,7 @@ Requires gnuradio 3.8.2
 ## Building and Installing
 
 ```
-git clone git@github.com:sp5wwp/gr-m17.git
+git clone https://github.com/sp5wwp/gr-m17
 cd gr-m17
 cmake -B build
 # For Ubuntu 20.04
