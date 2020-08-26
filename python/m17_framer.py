@@ -22,23 +22,36 @@
 import numpy
 from gnuradio import gr
 from m17.m17_lich import lich
+from m17.m17_lich import crc16_m17
+
+MAC_DATA_IN_NBITS = 128
+MAC_LICH_CHUNK_NBITS = 48
+MAC_FN_NBITS = 16
+MAC_TOTAL_NBITS = MAC_LICH_CHUNK_NBITS + MAC_FN_NBITS + MAC_DATA_IN_NBITS
+
+NONCE_NBYTES = 112 // 8
 
 class m17_framer(gr.basic_block):
     """
     framing for M17 specification
     """
+
     def __init__(self, dst, src, stream_type, nonce=None):
         gr.basic_block.__init__(self,
             name="m17_framer",
             in_sig=[numpy.byte],
             out_sig=[numpy.byte])
-        self.set_relative_rate(176, 64)
+        # TODO: not sure if this helps in any way
+        self.set_relative_rate(MAC_TOTAL_NBITS, MAC_DATA_IN_NBITS)
+
         self.buffer = numpy.array([])
 
         if nonce is None:
-            nonce = bytearray(96)
+            nonce = bytearray(NONCE_NBYTES)
         self.lich = lich(dst, src, stream_type, nonce)
-        self.lich_array = numpy.array(self.lich.asList(),dtype=numpy.int8)
+        self.lich_array = numpy.array(self.lich.asList(), dtype=numpy.int8)
+
+        self.fn = 0
 
         gr.log.debug('LICH {}'.format(self.lich))
         gr.log.debug('LICH bytes {}'.format(self.lich_array))
@@ -46,7 +59,7 @@ class m17_framer(gr.basic_block):
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):
-            ninput_items_required = 128 * int(noutput_items / 176)
+            ninput_items_required = MAC_DATA_IN_NBITS // 8 * (noutput_items // (MAC_TOTAL_NBITS // 8))
         #gr.log.debug("forecast {} {}".format(noutput_items, ninput_items_required))
 
     def general_work(self, input_items, output_items):
@@ -55,12 +68,28 @@ class m17_framer(gr.basic_block):
         self.consume_each(len(input_items[0]))
 
         nout = 0
-        while len(self.buffer) > 128:
-            output_items[0][nout:(nout + len(self.lich_array))] = self.lich_array
-            nout += len(self.lich_array)
-            output_items[0][nout:(nout + 128)] = self.buffer[:128]
-            self.buffer = self.buffer[128:]
-            nout += 128
+        lich_nbytes = MAC_LICH_CHUNK_NBITS // 8
+        data_in_nbytes = MAC_DATA_IN_NBITS // 8
+        while len(self.buffer) > data_in_nbytes:
+            chunk_idx = self.fn % 5
+            self.fn += 1
+
+            # lich
+            lich_chunk = self.lich_array[chunk_idx * lich_nbytes : ((chunk_idx + 1) * lich_nbytes)]
+            output_items[0][nout:(nout + lich_nbytes)] = lich_chunk
+            nout += lich_nbytes
+
+            # fn
+            output_items[0][nout:(nout + 2)] = [self.fn >> 8, self.fn & 0xff]
+            nout += 2
+
+            # data w/ CRC
+            # TODO: clean this up
+            crc = crc16_m17(bytearray(self.buffer[:data_in_nbytes]), True)
+            output_items[0][nout:(nout + data_in_nbytes + 2)] = numpy.concatenate( (self.buffer[:data_in_nbytes], [crc >> 8, crc & 0xff]) )
+            self.buffer = self.buffer[data_in_nbytes:]
+            nout += data_in_nbytes + 2
+
         if nout > 0 or len(input_items[0]) > 0:
             gr.log.debug("rx: {} gen: {}".format(len(input_items[0]), nout))
 

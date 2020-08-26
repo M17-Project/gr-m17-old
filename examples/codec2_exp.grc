@@ -98,6 +98,22 @@ blocks:
     coordinate: [462, 205]
     rotation: 0
     state: true
+- name: blocks_pack_k_bits_bb_0
+  id: blocks_pack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [996, 268]
+    rotation: 0
+    state: true
 - name: blocks_vector_to_stream_0
   id: blocks_vector_to_stream
   parameters:
@@ -131,7 +147,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1022, 209]
+    coordinate: [1043, 166]
     rotation: 0
     state: true
 - name: m17_framer_0
@@ -193,8 +209,9 @@ blocks:
 connections:
 - [audio_source_0, '0', rational_resampler_xxx_0, '0']
 - [blocks_float_to_short_0, '0', blocks_vector_to_stream_0, '0']
+- [blocks_pack_k_bits_bb_0, '0', m17_framer_0, '0']
 - [blocks_vector_to_stream_0, '0', vocoder_codec2_encode_sp_0, '0']
-- [blocks_vector_to_stream_1, '0', m17_framer_0, '0']
+- [blocks_vector_to_stream_1, '0', blocks_pack_k_bits_bb_0, '0']
 - [m17_framer_0, '0', blocks_file_sink_0, '0']
 - [rational_resampler_xxx_0, '0', blocks_float_to_short_0, '0']
 - [vocoder_codec2_encode_sp_0, '0', blocks_vector_to_stream_1, '0']
