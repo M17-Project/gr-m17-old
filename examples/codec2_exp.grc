@@ -78,7 +78,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1623, 189]
+    coordinate: [1559, 189]
     rotation: 0
     state: true
 - name: blocks_float_to_short_0
@@ -131,7 +131,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1075, 209]
+    coordinate: [1022, 209]
     rotation: 0
     state: true
 - name: m17_framer_0
@@ -150,7 +150,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1294, 181]
+    coordinate: [1250, 181]
     rotation: 0
     state: true
 - name: rational_resampler_xxx_0
@@ -186,7 +186,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [827, 205]
+    coordinate: [803, 205]
     rotation: 0
     state: true
 
