@@ -23,5 +23,6 @@ install(FILES
     m17_add_sync.block.yml
     m17_add_fn.block.yml
     m17_vector_concat.block.yml
-    m17_add_crc.block.yml DESTINATION share/gnuradio/grc/blocks
+    m17_add_crc.block.yml
+    m17_m17_lich_gen.block.yml DESTINATION share/gnuradio/grc/blocks
 )

@@ -21,13 +21,11 @@
 
 import numpy
 from gnuradio import gr
-from m17.m17_lich import lich
 from m17.m17_lich import crc16_m17
 
 MAC_DATA_IN_NBITS = 128
-MAC_LICH_CHUNK_NBITS = 48
 MAC_FN_NBITS = 16
-MAC_TOTAL_NBITS = MAC_LICH_CHUNK_NBITS + MAC_FN_NBITS + MAC_DATA_IN_NBITS
+MAC_TOTAL_NBITS = MAC_FN_NBITS + MAC_DATA_IN_NBITS
 
 NONCE_NBYTES = 112 // 8
 
@@ -45,16 +43,7 @@ class m17_framer(gr.basic_block):
         self.set_relative_rate(MAC_TOTAL_NBITS, MAC_DATA_IN_NBITS)
 
         self.buffer = numpy.array([])
-
-        if nonce is None:
-            nonce = bytearray(NONCE_NBYTES)
-        self.lich = lich(dst, src, stream_type, nonce)
-        self.lich_array = numpy.array(self.lich.asList(), dtype=numpy.int8)
-
         self.fn = 0
-
-        gr.log.debug('LICH {}'.format(self.lich))
-        gr.log.debug('LICH bytes {}'.format(self.lich_array))
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
@@ -68,16 +57,9 @@ class m17_framer(gr.basic_block):
         self.consume_each(len(input_items[0]))
 
         nout = 0
-        lich_nbytes = MAC_LICH_CHUNK_NBITS // 8
         data_in_nbytes = MAC_DATA_IN_NBITS // 8
         while len(self.buffer) > data_in_nbytes:
-            chunk_idx = self.fn % 5
             self.fn += 1
-
-            # lich
-            lich_chunk = self.lich_array[chunk_idx * lich_nbytes : ((chunk_idx + 1) * lich_nbytes)]
-            output_items[0][nout:(nout + lich_nbytes)] = lich_chunk
-            nout += lich_nbytes
 
             # fn
             output_items[0][nout:(nout + 2)] = [self.fn >> 8, self.fn & 0xff]

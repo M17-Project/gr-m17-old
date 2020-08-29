@@ -1,19 +1,29 @@
-id: m17_framer
-label: framer
+id: m17_m17_lich_gen
+label: m17_lich_gen
 category: '[m17]'
-documentation: |-
-  This frames data with M17 LICH preamble and LICH chunks for each packet.
 
 templates:
   imports: import m17
-  make: m17.m17_framer(${dst}, ${src}, ${stream_type}, ${nonce})
+  make: m17.m17_lich_gen(${dst}, ${src}, ${stream_type}, ${nonce})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
 #     * id (makes the value accessible as \$keyname, e.g. in the make entry)
 #     * label (label shown in the GUI)
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
-#parameters:
+parameters:
+- id: dst
+  label: Destination Callsign
+  dtype: string
+- id: src
+  label: Source Callsign
+  dtype: string
+- id: stream_type
+  label: Stream Type
+  dtype: int
+- id: nonce
+  label: Nonce for AES stream only
+  dtype: hex
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -22,15 +32,10 @@ templates:
 #      * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
-inputs:
-- label: Input Data
-  domain: stream
-  dtype: byte
-  optional: 1
-
 outputs:
-- label: Framed Data
+- label: Full LICH
   domain: stream
+  vlen: 240
   dtype: byte
 
 #  'file_format' specifies the version of the GRC yml format used in the file
