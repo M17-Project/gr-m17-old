@@ -38,8 +38,8 @@ GR_PYTHON_INSTALL(
     add_fn.py
     vector_concat.py
     add_crc.py
-    m17_lich_gen.py DESTINATION ${GR_PYTHON_DIR}/m17
-am
+    m17_lich_gen.py
+    superframe_combiner.py DESTINATION ${GR_PYTHON_DIR}/m17
 )
 
 ########################################################################
@@ -56,3 +56,4 @@ GR_ADD_TEST(qa_vector_concat ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa
 GR_ADD_TEST(qa_add_crc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_add_crc.py)
 GR_ADD_TEST(qa_m17_lich_gen ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_m17_lich_gen.py)
 
+GR_ADD_TEST(qa_superframe_combiner ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_superframe_combiner.py)
