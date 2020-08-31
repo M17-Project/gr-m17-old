@@ -22,22 +22,46 @@
 import numpy
 from gnuradio import gr
 
+PREAMBLE_NBYTES = 128
+LICH_NBYTES = 128
+FRAME_NBYTES = 128 + 16
+
 class superframe_combiner(gr.basic_block):
     """
-    docstring for block superframe_combiner
+    combine preamble, LICH and normal frames into final PHY stream
     """
     def __init__(self):
         gr.basic_block.__init__(self,
             name="superframe_combiner",
-            in_sig=[<+numpy.float32+>, ],
-            out_sig=[<+numpy.float32+>, ])
+            in_sig=[numpy.byte, numpy.byte, numpy.byte],
+            out_sig=[numpy.byte, ])
+        self.reset = True
+        self.buffer = numpy.array([], dtype=numpy.byte)
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
-        for i in range(len(ninput_items_required)):
-            ninput_items_required[i] = noutput_items
+        if self.reset:
+            ninput_items_required[0] = PREAMBLE_NBYTES
+            ninput_items_required[1] = LICH_NBYTES
+        ninput_items_required[2] = FRAME_NBYTES
 
     def general_work(self, input_items, output_items):
-        output_items[0][:] = input_items[0]
-        consume(0, len(input_items[0]))        #self.consume_each(len(input_items[0]))
-        return len(output_items[0])
+        if self.reset:
+            if len(input_items[0]) >= PREAMBLE_NBYTES and \
+               len(input_items[1]) >= LICH_NBYTES:
+                self.buffer = numpy.concatenate((self.buffer, input_items[0]))
+                self.consume_each(len(input_items[0]))
+                self.buffer = numpy.concatenate((self.buffer, input_items[1]))
+                self.consume_each(len(input_items[1]))
+                self.reset = False
+
+        if not self.reset:
+            self.buffer = numpy.concatenate((self.buffer, input_items[2]))
+            self.consume_each(len(input_items[2]))
+
+        nout = min(len(output_items[0]), len(self.buffer))
+        print('nout', nout, len(output_items[0]), len(self.buffer))
+        output_items[0][:nout] = self.buffer[:nout]
+        self.buffer = self.buffer[nout:]
+
+        return nout

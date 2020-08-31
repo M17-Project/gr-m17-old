@@ -21,7 +21,6 @@
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 from m17_framer import m17_framer
-import m17_lich
 
 class qa_m17_framer(gr_unittest.TestCase):
 
@@ -30,22 +29,6 @@ class qa_m17_framer(gr_unittest.TestCase):
 
     def tearDown(self):
         self.tb = None
-
-    def test_001_lich(self):
-        ts = 'KM6VMZ/M'
-        enc1 = m17_lich._encode_base40(ts)
-        dec1 = m17_lich._decode_base40(enc1)
-        assert(ts == dec1)
-
-    def test_002_lich(self):
-        l1 = m17_lich.lich('SP5WWP', 'KM6VMZ', 0x03, bytearray(14))
-        barray = l1.asByteArray()
-        l2 = m17_lich.lich.fromByteArray(barray)
-
-        assert(l2.dst == l1.dst)
-        assert(l2.src == l1.src)
-        assert(l2.nonce == l1.nonce)
-        assert(l2.stream_type == l1.stream_type)
 
     def test_001_t(self):
         # set up fg

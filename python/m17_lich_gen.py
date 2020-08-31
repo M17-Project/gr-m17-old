@@ -23,6 +23,8 @@ import numpy
 from gnuradio import gr
 from m17.m17_lich import lich
 
+NONCE_NBYTES = 112 // 8
+
 class m17_lich_gen(gr.sync_block):
     """
     Generate LICH full block
@@ -43,6 +45,9 @@ class m17_lich_gen(gr.sync_block):
 
 
     def work(self, input_items, output_items):
-        output_items[0][:len(self.lich_array)] = self.lich_array
-        return len(self.lich_array)
+        if len(output_items[0]) > len(self.lich_array):
+            output_items[0][:len(self.lich_array)] = self.lich_array
+            return len(self.lich_array)
+        else:
+            return 0
 

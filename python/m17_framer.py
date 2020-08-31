@@ -67,7 +67,7 @@ class m17_framer(gr.basic_block):
 
             # data w/ CRC
             # TODO: clean this up
-            crc = crc16_m17(bytearray(self.buffer[:data_in_nbytes]), True)
+            crc = crc16_m17(bytearray(self.buffer[:data_in_nbytes]))
             output_items[0][nout:(nout + data_in_nbytes + 2)] = numpy.concatenate( (self.buffer[:data_in_nbytes], [crc >> 8, crc & 0xff]) )
             self.buffer = self.buffer[data_in_nbytes:]
             nout += data_in_nbytes + 2

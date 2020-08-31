@@ -35,7 +35,6 @@ parameters:
 outputs:
 - label: Full LICH
   domain: stream
-  vlen: 240
   dtype: byte
 
 #  'file_format' specifies the version of the GRC yml format used in the file
