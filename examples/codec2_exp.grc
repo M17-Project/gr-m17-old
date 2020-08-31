@@ -178,17 +178,32 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    dst: SP5WWP
     maxoutbuf: '0'
     minoutbuf: '0'
-    nonce: ''
-    src: KM6VMZ
-    stream_type: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [1250, 181]
+    rotation: 0
+    state: true
+- name: m17_m17_lich_gen_0
+  id: m17_m17_lich_gen
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dst: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nonce: ''
+    src: ''
+    stream_type: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [773, 384]
     rotation: 0
     state: true
 - name: rational_resampler_xxx_0
