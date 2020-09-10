@@ -20,5 +20,6 @@
 
 install(FILES
     m17_m17_framer.block.yml
-    m17_add_sync.block.yml DESTINATION share/gnuradio/grc/blocks
+    m17_add_sync.block.yml
+    m17_add_fn.block.yml DESTINATION share/gnuradio/grc/blocks
 )
