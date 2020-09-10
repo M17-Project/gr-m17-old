@@ -1,0 +1,19 @@
+#!/bin/bash
+
+mkdir -p build
+cd build
+
+`which lsb_release` && rel=`lsb_release -si`
+
+if [ "$rel" == "Ubuntu" ]; then
+    # For Ubuntu 20.04
+    cmake .. -DGR_PYTHON_DIR=/usr/local/lib/python3.8/dist-packages
+else
+    cmake ..
+fi
+
+cd ..
+make -C build
+
+sudo make -C build install
+sudo ldconfig
