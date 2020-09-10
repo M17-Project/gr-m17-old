@@ -33,4 +33,5 @@ except ImportError:
 
 # import any pure python here
 from .m17_framer import m17_framer
+from .add_sync import add_sync
 #
