@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2020 J. Elms
+# Copyright (C) 2020 J. Elms(KM6VMZ)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 from add_sync import add_sync
+import numpy
 
 class qa_add_sync(gr_unittest.TestCase):
 
@@ -30,10 +31,19 @@ class qa_add_sync(gr_unittest.TestCase):
     def tearDown(self):
         self.tb = None
 
-    def test_001_t(self):
-        # set up fg
+    def test_001_add_sync(self):
+        src_data = [xx for xx in range(46)]
+        expected_result = numpy.concatenate( ([0x32, 0x43], src_data) )
+
+        src = blocks.vector_source_b(src_data, False, 46)
+        sync = add_sync()
+        dst = blocks.vector_sink_b(48)
+        self.tb.connect(src, sync)
+        self.tb.connect(sync, dst)
+
         self.tb.run()
-        # check data
+        result_data = dst.data()
+        self.assertFloatTuplesAlmostEqual(expected_result, result_data, 48)
 
 
 if __name__ == '__main__':
