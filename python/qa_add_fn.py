@@ -21,6 +21,7 @@
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 from add_fn import add_fn
+import numpy
 
 class qa_add_fn(gr_unittest.TestCase):
 
@@ -30,10 +31,19 @@ class qa_add_fn(gr_unittest.TestCase):
     def tearDown(self):
         self.tb = None
 
-    def test_001_t(self):
-        # set up fg
+    def test_001_add_fn(self):
+        src_data = numpy.arange(16)
+        expected_result = numpy.concatenate( ([0, 0], src_data) )
+
+        src = blocks.vector_source_b(src_data, False, 16)
+        dut = add_fn(0)
+        dst = blocks.vector_sink_b(18)
+        self.tb.connect(src, dut)
+        self.tb.connect(dut, dst)
+
         self.tb.run()
-        # check data
+        result_data = dst.data()
+        self.assertFloatTuplesAlmostEqual(expected_result, result_data, 18)
 
 
 if __name__ == '__main__':

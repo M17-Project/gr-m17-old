@@ -29,8 +29,9 @@ class add_fn(gr.basic_block):
     def __init__(self, fn_init=0):
         gr.basic_block.__init__(self,
             name="add_fn",
-            in_sig=[<+numpy.float32+>, ],
-            out_sig=[<+numpy.float32+>, ])
+            in_sig=[(numpy.byte, 16), ],
+            out_sig=[(numpy.byte, 18), ])
+        self.fn = fn_init
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
@@ -38,6 +39,11 @@ class add_fn(gr.basic_block):
             ninput_items_required[i] = noutput_items
 
     def general_work(self, input_items, output_items):
-        output_items[0][:] = input_items[0]
-        consume(0, len(input_items[0]))        #self.consume_each(len(input_items[0]))
-        return len(output_items[0])
+        nout = min(output_items[0].shape[0], input_items[0].shape[0])
+        for i in range(nout):
+            output_items[0][i,:] = numpy.concatenate(
+                ([self.fn >> 8, self.fn & 0xff],
+                input_items[0][i,:]))
+            self.fn += 1
+        self.consume_each(nout)
+        return nout
