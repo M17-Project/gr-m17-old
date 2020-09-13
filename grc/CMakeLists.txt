@@ -25,5 +25,6 @@ install(FILES
     m17_vector_concat.block.yml
     m17_add_crc.block.yml
     m17_m17_lich_gen.block.yml
-    m17_superframe_combiner.block.yml DESTINATION share/gnuradio/grc/blocks
+    m17_superframe_combiner.block.yml
+    m17_golay_enc.block.yml DESTINATION share/gnuradio/grc/blocks
 )

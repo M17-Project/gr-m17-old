@@ -38,7 +38,6 @@ from .add_fn import add_fn
 from .vector_concat import vector_concat
 from .add_crc import add_crc
 from .m17_lich_gen import m17_lich_gen
-
 from .superframe_combiner import superframe_combiner
-
+from .golay_enc import golay_enc
 #
