@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright (C) 2020 J. Elms
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# 
+#
 
 import struct
 
@@ -52,35 +52,43 @@ def _decode_base40(in_val):
         in_val = int(in_val / 40)
     return ret
 
+def crc16(data_in, poly, normal_form=True, init_val=0x0000):
+    """
+    Calculate CRC using normal or Koopman(aka reversed recipricol) polynomial representation.
+    Assumes no reflection or output XOR.
 
-def crc16_m17(data_in, add_tail=False):
+    * https://en.wikipedia.org/wiki/Cyclic_redundancy_check#Specification
+    * https://users.ece.cmu.edu/~koopman/crc/#notation
     """
-    Calculate M17 CRC for a stream of data
-    """
-    poly = 0xAC9A
-    init = 0xFFFF
-    reg = init
+    reg = init_val
     def calc_byte(reg, in_byte):
         for i in range(7, -1, -1):
             bit = (in_byte >> i) & 1
             out = (reg >> 15) & 1
-            reg = ((reg << 1) | bit) ^ (poly * out)
+            inp = bit ^ out
+            if normal_form:
+                reg = ((reg << 1) ^ (poly * inp)) & 0xffff
+            else:
+                reg = (((reg ^ (poly * inp)) << 1) | inp) & 0xffff
         return reg
 
     for byte in data_in:
         reg = calc_byte(reg, byte)
 
-    if add_tail:
-        reg = calc_byte(reg, 0)
-        reg = calc_byte(reg, 0)
-        
     return reg & 0xFFFF
+
+
+def crc16_m17(data_in):
+    """
+    Calculate M17 CRC for a stream of data
+    """
+    return crc16(data_in, 0x5935, True, 0xFFFF)
 
 class lich(object):
     """
     Encapsulate M17 LICH structure
     """
-    
+
     def __init__(self, dst, src, stream_type, nonce=None):
         self.dst = dst
         self.src = src
@@ -102,7 +110,7 @@ class lich(object):
         return representation of LICH as list of bytes
         """
         return list(self._encode())
-    
+
     def asByteArray(self):
         """
         return representation of LICH as python bytearray
@@ -115,7 +123,7 @@ class lich(object):
             self.src,
             self.stream_type,
             list(self.nonce))
-        
+
     @staticmethod
     def fromByteArray(inp, check_crc=True):
         """
@@ -138,7 +146,7 @@ if __name__ == '__main__':
     print('decoded', dec1)
     print(ts, dec1, ts == dec1)
     assert(ts == dec1)
-    
+
     l1 = lich('SP5WWP', 'KM6VMZ', 0x03, bytearray(14))
     print(l1)
     print(l1.asList())

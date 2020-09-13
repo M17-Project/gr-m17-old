@@ -33,7 +33,11 @@ GR_PYTHON_INSTALL(
     FILES
     __init__.py
     m17_lich.py
-    m17_framer.py DESTINATION ${GR_PYTHON_DIR}/m17
+    m17_framer.py
+    add_sync.py
+    add_fn.py
+    vector_concat.py
+    add_crc.py DESTINATION ${GR_PYTHON_DIR}/m17
 )
 
 ########################################################################
@@ -44,3 +48,7 @@ include(GrTest)
 set(GR_TEST_TARGET_DEPS gnuradio-m17)
 set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
 GR_ADD_TEST(qa_m17_framer ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_m17_framer.py)
+GR_ADD_TEST(qa_add_sync ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_add_sync.py)
+GR_ADD_TEST(qa_add_fn ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_add_fn.py)
+GR_ADD_TEST(qa_vector_concat ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_vector_concat.py)
+GR_ADD_TEST(qa_add_crc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_add_crc.py)

@@ -4,11 +4,10 @@ GNU Radio M17 protocol implementation.
 Requires gnuradio 3.8.2.
 
 ## Building and Installing
-Use *install.sh* script to install gr-m17:
+Use *install* script to install gr-m17:
 
 ```
-sudo chmod a+x install.sh
-./install.sh
+./install
 ```
 
 ## Open example hierarchy
