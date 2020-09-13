@@ -26,11 +26,12 @@ class vector_concat(gr.basic_block):
     """
     docstring for block vector_concat
     """
-    def __init__(self, num_inputs=2, input_vlens=[1,1], verbose=False):
+    def __init__(self, dtype, input_vlens=[1,1], verbose=False):
+        inputs = [(dtype, i) for i in input_vlens]
         gr.basic_block.__init__(self,
             name="vector_concat",
-            in_sig=[<+numpy.float32+>, ],
-            out_sig=[<+numpy.float32+>, ])
+            in_sig=inputs,
+            out_sig=[(dtype, sum(input_vlens)), ])
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
@@ -38,6 +39,9 @@ class vector_concat(gr.basic_block):
             ninput_items_required[i] = noutput_items
 
     def general_work(self, input_items, output_items):
-        output_items[0][:] = input_items[0]
-        consume(0, len(input_items[0]))        #self.consume_each(len(input_items[0]))
-        return len(output_items[0])
+        count = numpy.min([x.shape[0] for x in (output_items + input_items)])
+        for i in range(count):
+            output_items[0][i, :] = numpy.concatenate(
+                tuple(x[i,:] for x in input_items) )
+        self.consume_each(count)
+        return count
