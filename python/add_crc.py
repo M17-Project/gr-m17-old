@@ -21,6 +21,7 @@
 
 import numpy
 from gnuradio import gr
+from .m17_lich import crc16_m17
 
 class add_crc(gr.basic_block):
     """
@@ -29,8 +30,9 @@ class add_crc(gr.basic_block):
     def __init__(self, vlen):
         gr.basic_block.__init__(self,
             name="add_crc",
-            in_sig=[<+numpy.float32+>, ],
-            out_sig=[<+numpy.float32+>, ])
+            in_sig=[(numpy.byte, vlen), ],
+            out_sig=[(numpy.byte, vlen + 2), ])
+        self.vlen = vlen
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
@@ -38,6 +40,12 @@ class add_crc(gr.basic_block):
             ninput_items_required[i] = noutput_items
 
     def general_work(self, input_items, output_items):
-        output_items[0][:] = input_items[0]
-        consume(0, len(input_items[0]))        #self.consume_each(len(input_items[0]))
-        return len(output_items[0])
+        vlen = self.vlen
+        count = min(input_items[0].shape[0], output_items[0].shape[0])
+        for i in range(count):
+            output_items[0][i,:vlen] = input_items[0][i,:]
+            crc = crc16_m17(input_items[0][i,:])
+            output_items[0][i,vlen:(vlen+2)] = [(crc >> 8) & 0xFF, crc & 0xFF]
+
+        self.consume_each(count)
+        return count
