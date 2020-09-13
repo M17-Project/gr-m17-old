@@ -36,7 +36,8 @@ GR_PYTHON_INSTALL(
     m17_framer.py
     add_sync.py
     add_fn.py
-    vector_concat.py DESTINATION ${GR_PYTHON_DIR}/m17
+    vector_concat.py
+    add_crc.py DESTINATION ${GR_PYTHON_DIR}/m17
 )
 
 ########################################################################
@@ -50,3 +51,4 @@ GR_ADD_TEST(qa_m17_framer ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_m1
 GR_ADD_TEST(qa_add_sync ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_add_sync.py)
 GR_ADD_TEST(qa_add_fn ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_add_fn.py)
 GR_ADD_TEST(qa_vector_concat ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_vector_concat.py)
+GR_ADD_TEST(qa_add_crc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_add_crc.py)
