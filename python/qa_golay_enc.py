@@ -21,6 +21,7 @@
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 from golay_enc import golay_enc
+import numpy
 
 class qa_golay_enc(gr_unittest.TestCase):
 
@@ -31,9 +32,18 @@ class qa_golay_enc(gr_unittest.TestCase):
         self.tb = None
 
     def test_001_t(self):
-        # set up fg
+        src_data = numpy.array([0x12, 0xf1, 0x2f], dtype=numpy.uint8)
+        expected_result = [0x12, 0xfe, 0x91, 0x12, 0xfe, 0x91]
+
+        src = blocks.vector_source_b(src_data, False, 3)
+        uut = golay_enc(False, 3)
+        dst = blocks.vector_sink_b(6)
+        self.tb.connect(src, uut)
+        self.tb.connect(uut, dst)
+
         self.tb.run()
-        # check data
+        result_data = dst.data()
+        self.assertFloatTuplesAlmostEqual(expected_result, result_data, 6)
 
 
 if __name__ == '__main__':
