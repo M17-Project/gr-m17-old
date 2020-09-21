@@ -1,0 +1,350 @@
+options:
+  parameters:
+    author: elms
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: m17_forward
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: m17_cc
+  id: variable_cc_encoder_def
+  parameters:
+    comment: ''
+    dim1: '1'
+    dim2: '1'
+    framebits: 18*8
+    k: '5'
+    mode: fec.CC_STREAMING
+    ndim: '0'
+    padding: 'False'
+    polys: '[25,23]'
+    rate: '2'
+    state_start: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [290, 23]
+    rotation: 0
+    state: true
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: temp
+    type: byte
+    unbuffered: 'False'
+    vlen: '48'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1367, 264]
+    rotation: 0
+    state: true
+- name: blocks_pack_k_bits_bb_0
+  id: blocks_pack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [827, 451]
+    rotation: 270
+    state: true
+- name: blocks_stream_to_vector_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: 48//8
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [436, 274]
+    rotation: 0
+    state: true
+- name: blocks_stream_to_vector_1
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '34'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [875, 426]
+    rotation: 90
+    state: true
+- name: blocks_unpack_k_bits_bb_0
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [603, 500]
+    rotation: 90
+    state: true
+- name: blocks_vector_source_x_0
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: byte
+    vector: '[0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5]'
+    vlen: 128//8
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [37, 397]
+    rotation: 0
+    state: true
+- name: blocks_vector_to_stream_0
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '20'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 501]
+    rotation: 270
+    state: true
+- name: fec_extended_encoder_0
+  id: fec_extended_encoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    encoder_list: m17_cc
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    puncpat: '''11'''
+    threadtype: capillary
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [633, 346]
+    rotation: 0
+    state: true
+- name: m17_add_crc_0
+  id: m17_add_crc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '18'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [410, 421]
+    rotation: 0
+    state: true
+- name: m17_add_fn_0
+  id: m17_add_fn
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fn_init: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [234, 421]
+    rotation: 0
+    state: true
+- name: m17_add_sync_0
+  id: m17_add_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1333, 435]
+    rotation: 90
+    state: true
+- name: m17_golay_enc_0
+  id: m17_golay_enc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    unpacked: 'False'
+    vlen: 48//8
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [645, 262]
+    rotation: 0
+    state: true
+- name: m17_m17_lich_gen_0
+  id: m17_m17_lich_gen
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dst: ABCDEFG
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nonce: ''
+    src: HIJKLMN
+    stream_type: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [62, 246]
+    rotation: 0
+    state: true
+- name: m17_vector_concat_0
+  id: m17_vector_concat
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    input_vlens: '[12, 272//8]'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: byte
+    verbose: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [939, 254]
+    rotation: 0
+    state: true
+- name: trellis_permutation_0
+  id: trellis_permutation
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    interleaver_size: '46'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    syms_per_block: '1'
+    table: '[0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5]'
+    type: byte
+    vlen: '46'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1206, 405]
+    rotation: 270
+    state: true
+
+connections:
+- [blocks_pack_k_bits_bb_0, '0', blocks_stream_to_vector_1, '0']
+- [blocks_stream_to_vector_0, '0', m17_golay_enc_0, '0']
+- [blocks_stream_to_vector_1, '0', m17_vector_concat_0, '1']
+- [blocks_unpack_k_bits_bb_0, '0', fec_extended_encoder_0, '0']
+- [blocks_vector_source_x_0, '0', m17_add_fn_0, '0']
+- [blocks_vector_to_stream_0, '0', blocks_unpack_k_bits_bb_0, '0']
+- [fec_extended_encoder_0, '0', blocks_pack_k_bits_bb_0, '0']
+- [m17_add_crc_0, '0', blocks_vector_to_stream_0, '0']
+- [m17_add_fn_0, '0', m17_add_crc_0, '0']
+- [m17_add_sync_0, '0', blocks_file_sink_0, '0']
+- [m17_golay_enc_0, '0', m17_vector_concat_0, '0']
+- [m17_m17_lich_gen_0, '0', blocks_stream_to_vector_0, '0']
+- [m17_vector_concat_0, '0', trellis_permutation_0, '0']
+- [trellis_permutation_0, '0', m17_add_sync_0, '0']
+
+metadata:
+  file_format: 1
