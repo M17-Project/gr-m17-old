@@ -102,7 +102,7 @@ class lich(object):
             struct.pack('>H', self.stream_type) +
             self.nonce
         )
-        crc = crc16_m17(lich_data, True)
+        crc = crc16_m17(lich_data)
         return lich_data + struct.pack('>H', crc)
 
     def asList(self):

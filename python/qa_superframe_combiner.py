@@ -20,9 +20,9 @@
 
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
-from m17_framer import m17_framer
+from superframe_combiner import superframe_combiner
 
-class qa_m17_framer(gr_unittest.TestCase):
+class qa_superframe_combiner(gr_unittest.TestCase):
 
     def setUp(self):
         self.tb = gr.top_block()
@@ -37,4 +37,4 @@ class qa_m17_framer(gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_m17_framer)
+    gr_unittest.run(qa_superframe_combiner)

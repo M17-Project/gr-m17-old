@@ -1,19 +1,16 @@
-id: m17_framer
-label: framer
+id: m17_superframe_combiner
+label: superframe_combiner
 category: '[m17]'
-documentation: |-
-  This frames data with M17 LICH preamble and LICH chunks for each packet.
 
 templates:
   imports: import m17
-  make: m17.m17_framer(${dst}, ${src}, ${stream_type}, ${nonce})
+  make: m17.superframe_combiner()
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
 #     * id (makes the value accessible as \$keyname, e.g. in the make entry)
 #     * label (label shown in the GUI)
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
-#parameters:
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -23,13 +20,18 @@ templates:
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
 inputs:
-- label: Input Data
+- label: preamble
   domain: stream
   dtype: byte
-  optional: 1
+- label: lich
+  domain: stream
+  dtype: byte
+- label: data
+  domain: stream
+  dtype: byte
 
 outputs:
-- label: Framed Data
+- label: data
   domain: stream
   dtype: byte
 
