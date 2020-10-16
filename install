@@ -3,11 +3,16 @@
 mkdir -p build
 cd build
 
-`which lsb_release` && rel=`lsb_release -si`
+`which lsb_release` && id=`lsb_release -si` && rel=`lsb_release -sr | sed 's/\..*//'`
 
-if [ "$rel" == "Ubuntu" ]; then
-    # For Ubuntu 20.04
-    cmake .. -DGR_PYTHON_DIR=/usr/local/lib/python3.8/dist-packages
+if [ "$id" == "Ubuntu" ]; then
+    if [ "$rel" == "20" ]; then
+        # For Ubuntu 20
+        cmake .. -DGR_PYTHON_DIR=/usr/local/lib/python3.8/dist-packages
+    elif [ "$rel" == "18" ]; then
+        # For Ubuntu 18
+        cmake .. -DGR_PYTHON_DIR=/usr/local/lib/python3.6/dist-packages
+    fi
 else
     cmake ..
 fi
