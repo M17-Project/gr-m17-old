@@ -157,7 +157,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     noise_voltage: '0.0'
-    seed: '0'
+    seed: '42'
     taps: 1.0 + 1.0j
   states:
     bus_sink: false
@@ -165,7 +165,7 @@ blocks:
     bus_structure: null
     coordinate: [920, 184.0]
     rotation: 0
-    state: bypassed
+    state: enabled
 - name: digital_chunks_to_symbols_xx_0
   id: digital_chunks_to_symbols_xx
   parameters:
