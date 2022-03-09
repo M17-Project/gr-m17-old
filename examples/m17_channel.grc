@@ -268,7 +268,7 @@ blocks:
     marker9: '-1'
     nconnections: '1'
     samp_per_symbol: '10'
-    size: '4096'
+    size: 10*80
     srate: symbol_rate*10
     style1: '1'
     style10: '1'
@@ -299,16 +299,16 @@ blocks:
     width8: '1'
     width9: '1'
     ylabel: Amplitude
-    ymax: '0.05'
-    ymin: '-0.05'
+    ymax: '5'
+    ymin: '-5'
     yunit: '""'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1952, 264.0]
+    coordinate: [1576, 328.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_histogram_sink_x_0
   id: qtgui_histogram_sink_x
   parameters:
@@ -587,7 +587,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1320, 332.0]
+    coordinate: [1344, 332.0]
     rotation: 0
     state: disabled
 - name: qtgui_waterfall_sink_x_0
@@ -706,11 +706,11 @@ connections:
 - [analog_random_source_x_0, '0', digital_chunks_to_symbols_xx_0, '0']
 - [channels_channel_model_0, '0', analog_quadrature_demod_cf_0, '0']
 - [digital_chunks_to_symbols_xx_0, '0', root_raised_cosine_filter_0, '0']
-- [digital_symbol_sync_xx_0, '0', qtgui_eye_sink_x_0, '0']
 - [digital_symbol_sync_xx_0, '0', qtgui_histogram_sink_x_0, '0']
 - [digital_symbol_sync_xx_0, '0', qtgui_time_sink_x_0_0, '0']
 - [root_raised_cosine_filter_0, '0', analog_frequency_modulator_fc_0, '0']
 - [root_raised_cosine_filter_0_0, '0', digital_symbol_sync_xx_0, '0']
+- [root_raised_cosine_filter_0_0, '0', qtgui_eye_sink_x_0, '0']
 
 metadata:
   file_format: 1
