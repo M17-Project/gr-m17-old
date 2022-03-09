@@ -33,18 +33,6 @@ options:
     state: enabled
 
 blocks:
-- name: carrier_freq
-  id: variable
-  parameters:
-    comment: ''
-    value: '44000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [616, 12.0]
-    rotation: 0
-    state: true
 - name: fsk_deviation
   id: variable
   parameters:
