@@ -130,9 +130,88 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 184.0]
-    rotation: 0
+    coordinate: [408, 352.0]
+    rotation: 180
     state: enabled
+- name: blocks_repack_bits_bb_0
+  id: blocks_repack_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    align_output: 'False'
+    comment: ''
+    endianness: gr.GR_MSB_FIRST
+    k: '2'
+    l: '8'
+    len_tag_key: '""'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2088, 164.0]
+    rotation: 0
+    state: true
+- name: blocks_repack_bits_bb_1
+  id: blocks_repack_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    align_output: 'False'
+    comment: ''
+    endianness: gr.GR_MSB_FIRST
+    k: '8'
+    l: '2'
+    len_tag_key: '""'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 492.0]
+    rotation: 0
+    state: true
+- name: blocks_stream_mux_0
+  id: blocks_stream_mux
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    lengths: (8, 184)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 344.0]
+    rotation: 180
+    state: true
+- name: blocks_vector_source_x_0
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: byte
+    vector: (0x55, 0xF7)
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 484.0]
+    rotation: 0
+    state: true
 - name: channels_channel_model_0
   id: channels_channel_model
   parameters:
@@ -166,7 +245,7 @@ blocks:
     minoutbuf: '0'
     num_ports: '1'
     out_type: float
-    symbol_table: '[-3, -1, 1, 3]'
+    symbol_table: '[1, 3, -1, -3]'
   states:
     bus_sink: false
     bus_source: false
@@ -201,6 +280,43 @@ blocks:
     coordinate: [1576, 172.0]
     rotation: 0
     state: true
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base classes\
+      \ are basic_block, decim_block, interp_block\n    \"\"\"Embedded Python Block\
+      \ example - a simple multiply const\"\"\"\n\n    def __init__(self):  # only\
+      \ default arguments here\n        \"\"\"arguments to this function show up as\
+      \ parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n            self,\n\
+      \            name='4-level Slicer',   # will show up in GRC\n            in_sig=[np.float32],\n\
+      \            out_sig=[np.int8]\n        )\n        # if an attribute with the\
+      \ same name as a parameter is found,\n        # a callback is registered (properties\
+      \ work, too).\n        #self.example_param = example_param\n\n    def work(self,\
+      \ input_items, output_items):\n        \"\"\"slice\"\"\"\n        #output_items[0][:]\
+      \ = input_items[0] * self.example_param\n        for i in range(0, len(output_items)):\n\
+      \            if input_items[0][i] < -2:\n               output_items[0][i] =\
+      \ 0b11\n            elif input_items[0][i] < 0:\n                output_items[0][i]\
+      \ = 0b10\n            elif input_items[0][i] < 2:\n                output_items[0][i]\
+      \ = 0b00\n            else:\n                output_items[0][i] = 0b01\n   \
+      \     \n        return len(output_items[0])\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('4-level Slicer', 'blk', [], [('0', 'float', 1)], [('0', 'byte', 1)],
+      'Embedded Python Block example - a simple multiply const', [])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1936, 176.0]
+    rotation: 0
+    state: enabled
 - name: qtgui_eye_sink_x_0
   id: qtgui_eye_sink_x
   parameters:
@@ -381,9 +497,72 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1952, 136.0]
+    coordinate: [1936, 240.0]
     rotation: 0
-    state: enabled
+    state: disabled
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '128'
+    min: '-128'
+    name: '""'
+    nconnections: '1'
+    type: byte
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2288, 152.0]
+    rotation: 0
+    state: true
 - name: qtgui_time_sink_x_0_0
   id: qtgui_time_sink_x
   parameters:
@@ -478,9 +657,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1952, 44.0]
+    coordinate: [1936, 68.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_time_sink_x_1
   id: qtgui_time_sink_x
   parameters:
@@ -636,7 +815,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 332.0]
+    coordinate: [920, 332.0]
     rotation: 0
     state: disabled
 - name: root_raised_cosine_filter_0
@@ -691,11 +870,17 @@ connections:
 - [analog_frequency_modulator_fc_0, '0', qtgui_waterfall_sink_x_0, '0']
 - [analog_quadrature_demod_cf_0, '0', qtgui_time_sink_x_1, '0']
 - [analog_quadrature_demod_cf_0, '0', root_raised_cosine_filter_0_0, '0']
-- [analog_random_source_x_0, '0', digital_chunks_to_symbols_xx_0, '0']
+- [analog_random_source_x_0, '0', blocks_stream_mux_0, '1']
+- [blocks_repack_bits_bb_0, '0', qtgui_number_sink_0, '0']
+- [blocks_repack_bits_bb_1, '0', blocks_stream_mux_0, '0']
+- [blocks_stream_mux_0, '0', digital_chunks_to_symbols_xx_0, '0']
+- [blocks_vector_source_x_0, '0', blocks_repack_bits_bb_1, '0']
 - [channels_channel_model_0, '0', analog_quadrature_demod_cf_0, '0']
 - [digital_chunks_to_symbols_xx_0, '0', root_raised_cosine_filter_0, '0']
+- [digital_symbol_sync_xx_0, '0', epy_block_0, '0']
 - [digital_symbol_sync_xx_0, '0', qtgui_histogram_sink_x_0, '0']
 - [digital_symbol_sync_xx_0, '0', qtgui_time_sink_x_0_0, '0']
+- [epy_block_0, '0', blocks_repack_bits_bb_0, '0']
 - [root_raised_cosine_filter_0, '0', analog_frequency_modulator_fc_0, '0']
 - [root_raised_cosine_filter_0_0, '0', digital_symbol_sync_xx_0, '0']
 - [root_raised_cosine_filter_0_0, '0', qtgui_eye_sink_x_0, '0']
