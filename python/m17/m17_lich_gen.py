@@ -21,7 +21,7 @@
 
 import numpy
 from gnuradio import gr
-from m17.m17_lich import lich
+from gnuradio.m17.m17_lich import lich
 
 NONCE_NBYTES = 112 // 8
 
