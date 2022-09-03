@@ -6,6 +6,9 @@ cd build
 `which lsb_release` && id=`lsb_release -si` && rel=`lsb_release -sr | sed 's/\..*//'`
 
 if [ "$id" == "Ubuntu" ]; then
+    if [ "$rel" == "22" ]; then
+        # For Ubuntu 22.04.1
+        cmake .. -DGR_PYTHON_DIR=/usr/local/lib/python3.10/dist-packages
     if [ "$rel" == "20" ]; then
         # For Ubuntu 20
         cmake .. -DGR_PYTHON_DIR=/usr/local/lib/python3.8/dist-packages
