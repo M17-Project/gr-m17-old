@@ -3,7 +3,7 @@ label: golay_enc
 category: '[m17]'
 
 templates:
-  imports: import m17
+  imports: import gnuradio.m17 as m17
   make: m17.golay_enc(${unpacked}, ${vlen})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.

@@ -4,7 +4,7 @@ category: '[m17]'
 
 templates:
   imports: |-
-    import m17
+    import gnuradio.m17 as m17
     import numpy
   make: m17.vector_concat(${type.t}, ${input_vlens}, ${verbose})
 

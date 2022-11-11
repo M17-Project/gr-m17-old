@@ -5,7 +5,7 @@ documentation: |-
   This frames data with M17 LICH preamble and LICH chunks for each packet.
 
 templates:
-  imports: import m17
+  imports: import gnuradio.m17 as m17
   make: m17.m17_framer(${dst}, ${src}, ${stream_type}, ${nonce})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.

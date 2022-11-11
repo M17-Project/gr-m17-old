@@ -21,7 +21,7 @@
 
 import numpy
 from gnuradio import gr
-from m17.m17_lich import crc16_m17
+from gnuradio.m17.m17_lich import crc16_m17
 
 MAC_DATA_IN_NBITS = 128
 MAC_FN_NBITS = 16
